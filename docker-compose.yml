@@ -1,0 +1,16 @@
+ version: '3'
+
+ services:
+   discuz:
+     build: ./
+     container_name: discuz
+     restart: always
+     environment:
+      - WEB_DOCUMENT_ROOT=/usr/local/src/discuzx-3.4/upload
+     ports:
+       - 8080:80
+   discuz-db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
