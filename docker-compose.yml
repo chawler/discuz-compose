@@ -1,16 +1,32 @@
-version: '3'
+version: '2'
 
 services:
+
   discuz:
     build: ./
     container_name: discuz
     restart: always
+    depends_on:
+      - db
+      - redis
     environment:
      - WEB_DOCUMENT_ROOT=/usr/local/src/discuzx-3.4/upload
     ports:
       - 8080:80
-  discuz-db:
-   image: mariadb
-   restart: always
-   environment:
-     MYSQL_ROOT_PASSWORD: root
+      
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+     
+  redis:
+    restart: always
+    image: bitnami/redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+volumes:
+    db_data:
